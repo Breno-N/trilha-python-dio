@@ -70,8 +70,6 @@ def criar_cliente(*, nome, data_nascimento, cpf, endereco):
 
 
 def criar_conta_corrente(cpf):
-    agencia = "0001"
-    qtd_contas = 1
     global clientes
     cliente_consultado = {}
     for cliente in clientes:
@@ -79,14 +77,14 @@ def criar_conta_corrente(cpf):
             cliente_consultado = cliente
             break
     
-    global contas
-    nova_conta_cliente = {}
-    if len(contas) > 0:
-        for conta in contas:
-            if conta["cliente"]["cpf"] == cliente_consultado["cpf"]:
-                qtd_contas += 1 
+    if not bool(cliente_consultado):
+        print("\nCPF inexistente não é possivel prosseguir com o cadastro da conta")
+        return
 
-    nova_conta_cliente = {"cliente": cliente_consultado, "conta": qtd_contas, "agencia": agencia}
+    global contas
+    agencia = "0001"
+    numero_conta = len(contas) + 1
+    nova_conta_cliente = {"cliente": cliente_consultado, "conta": numero_conta, "agencia": agencia}
     
     return nova_conta_cliente
 
